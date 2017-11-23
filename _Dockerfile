@@ -1,0 +1,20 @@
+FROM ubuntu
+MAINTAINER hs
+
+RUN uname -a
+
+ADD opa.txt /tmp/
+CMD ["sh", "-c", "echo 'testando opa.txt' && cat /tmp/opa.txt"]
+LABEL Description="Descricao 123"
+
+ENV variavel1="valor da variavel 1"
+CMD ["sh", "-c", "echo $variavel1"] 
+
+EXPOSE 80
+
+USER hs
+
+WORKDIR /
+
+VOLUME /diretorio
+

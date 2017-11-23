@@ -1,0 +1,141 @@
+Link do curso gratuito:
+http://www.linuxpro.com.br/2017/08/curso-de-docker-gratis/
+
+
+CONCEITOS
+
+-- imagem
+Binário com a aplicação e suas dependências. É o equivalente à uma imagem “parada”.
+
+-- container
+Uma imagem em execução. É quando o container ganha vida.
+
+-- docker ps
+Retorna os containers que estão em execução.
+
+-- docker ps -a
+Retorna todos os containers já criados.
+
+--docker images
+Retorna as imagens que existem localmente.
+
+EXECUTANDO (BASICO)
+
+-- docker run -ti ubuntu /bin/bash
+Cria e executa um container a partir de uma imagem.
+-ti > habilita terminal iterativo
+ubuntu > nome da imagem
+/bin/bash > entrypoint / comando inicial
+
+-- docker start -i container_id
+Inicia a execução de um container já criado. Esse container_id pode ser
+	-i > iterativo
+
+--docker pause container_id
+Suspende a execução.
+
+--docker unpause container_id
+Retoma a execução.
+
+-- docker stop container_id
+Finaliza a execução..
+
+
+
+-- crtl + p + q
+Sai do container e o deixa rodando (diferente de ‘exit’ que finaliza a execução).
+
+-- docker attack container_id 
+Entra no container que vc acabou de sair.
+-- docker stats container_id
+Mostra informações de consumo de memória, disco.
+
+--docker top container_id
+Saída do comando top executado dentro do contai
+
+-- docker logs --follow container_id
+Exibe os logs de tudo que está em primeiro plano (e/ou output de um terminal attachado ao container).
+
+--docker rm
+Remove um container (preservando a imagem). Necessário o argumento ‘-f’ caso o mesmo esteja em execução.
+
+GERENCIAMENTO DE MEMORIA E CPU
+
+Uma nota importante sobre cpu:
+O gerenciamento de CPU do Docker se dá por divisão de toda cpu entre os containers em execução. 
+Dessa forma, em um cenário com os containers A (com cpu-share 1024), B (com cpu-share 512) e C (com cpu-share 512), o container A terá 50% de cpu, enquanto B e C terão 25%.
+
+
+-- docker inspect container_id
+Retorna as configurações do container
+
+-- docker run -ti --name teste2 --memory 512m debian
+Limitando a memória em 512m na inicialização.
+
+-- docker update --memory 256m container_id
+Alterando limite de memória de um container em execução.
+
+-- docker run --ti --cpu-shares 512 --name container_3 debian
+Limite de utilização de CPU na inicialização
+
+-- docker update --cpu-shares 512 container_id
+Alterando limitação de CPU de um container em execução.
+
+
+VOLUMES 
+
+-- docker run -ti -v /volume debian /bin/bash
+Vai subir um container com um diretório montado em  /volume, esse diretório é um mapeamento no host, que pode ser encontrado com o comando abaixo:
+
+-- docker inspect 26736f8e754c | grep -i mounts -A 11
+
+-- docker run -ti -v /home/hs/docker/primeiro_dockerfile/:/volume debian
+Maneira mais organizada de mapear volumes. 
+-v > mapeamento_no_host:mapeamento_no_container
+
+-- docker create -v /data --name dbdados centos
+Cria um container com um mapeamento no /data, que pode ser usada por um ou mais containers. Através do --volumes-from (explicado no próximo comando)
+
+
+CONTAINER DATA-ONLY
+
+
+--volumes-from
+Importa os volumes de um container para que ele possa ser usado como uma espécie de storage, que poderá ser compartilhado entre N containers. Segue o exemplo:
+
+
+-- docker create -v /tmp/volume_docker:/data --name storage1 centos
+Vai criar um container mapeando o /tmp/volume_docker do host no /data do container.
+
+
+-- docker run -ti --volumes-from storage1 --name container1 centos
+-- docker run -ti --volumes-from storage1 --name container1 centos
+Cria 2 containers, importando o /data do container storage1. O que for criado em /data desse containers, é visível para ambos.
+
+
+
+
+DOCKERFILE
+
+O dockerfile é um arquivo com as instruções para construção das imagens. Nele é possivel definir variaveis de ambiente, instalar 
+pacotes, montar volumes, expor portas, etc... 
+Ao construir uma imagem, o docker cria um cache do resultado de todas as instruções. Assim sendo, ao alterar uma linha, você invalida o cache de todas as linhas (instruções) abaixo daquela que você alterou. Isso influencia no tempo de build da imagem.
+
+
+-- docker build -t primeira_imagem:1.0 .
+	-t é usado para definir nome e tag (versão) respectivamente
+	- o "." (ponto) é o diretorio onde está o Dockerfile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
