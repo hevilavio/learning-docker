@@ -45,7 +45,7 @@ Finaliza a execução..
 -- crtl + p + q
 Sai do container e o deixa rodando (diferente de ‘exit’ que finaliza a execução).
 
--- docker attack container_id 
+-- docker attach container_id 
 Entra no container que vc acabou de sair.
 -- docker stats container_id
 Mostra informações de consumo de memória, disco.
