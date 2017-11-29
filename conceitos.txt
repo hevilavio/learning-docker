@@ -56,8 +56,11 @@ Saída do comando top executado dentro do contai
 -- docker logs --follow container_id
 Exibe os logs de tudo que está em primeiro plano (e/ou output de um terminal attachado ao container).
 
---docker rm
+--docker rm container_id
 Remove um container (preservando a imagem). Necessário o argumento ‘-f’ caso o mesmo esteja em execução.
+
+--docker rmi image_id
+Remove a imagem
 
 GERENCIAMENTO DE MEMORIA E CPU
 
@@ -127,6 +130,23 @@ Ao construir uma imagem, o docker cria um cache do resultado de todas as instru�
 	- o "." (ponto) é o diretorio onde está o Dockerfile
 
 
+
+DOCKERHUB
+
+Docker Hub é um repositório de imagens, que pode ser usado tanto para compartilhar suas imagens como utilizar
+imagens já construídas por outras pessoas.
+
+Após ter a conta criada no Docker Hub, é preciso logar na maquina local.
+	-- docker login (digitar usuário e senha)
+
+Tagear a imagem
+	-- docker tag primeira_imagem:1.0 login_docker_hub/primeira_imagem:1.0 
+
+Fazer o push da imagem para o seu dockerhub
+	-- docker push login_docker_hub/primeira_imagem:1.0
+
+Fazer pull da imagem
+	-- docker  pull login_docker_hub/primeira_imagem:1.0
 
 
 
