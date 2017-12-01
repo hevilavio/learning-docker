@@ -150,6 +150,31 @@ Fazer pull da imagem
 
 
 
+REDE
+
+Fazer bind de uma porta do host com uma porta do container
+	-- docker run -ti --name webA  -p 8080:80 ubuntu
+	-p porta_host:porta_container
+
+Compartilhar a stack de rede do host com o container
+	-- docker run -ti --name webA --net=host ubuntu
+
+
+
+
+DOCKER MACHINE
+
+Utilitario usado para gerenciar hosts do docker.
+
+Para se conectar com um host, atraves do drive do virtualbox
+	-- docker-machine-Linux-x86_64 create --driver virtualbox linuxtips
+
+
+Como criar um host através do docker-machine?
+
+
+
+
 
 
 
